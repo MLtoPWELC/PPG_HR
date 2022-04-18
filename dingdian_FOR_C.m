@@ -2,7 +2,6 @@ close all;
 clear all;
 %%
 %读取文件
-HUAWEI = 0;
 name = 'BVP.csv';% 202112101110 202112081640
 plot_range = 3100:3299;
 %%
@@ -221,40 +220,6 @@ title('均值HR');
 z_ppg1 = new_z_ppg2;
 
 %%
-if HUAWEI == 1
-huaweifilename = [name,'/HUAWEI','.txt'];
-
-fileID = fopen(huaweifilename);
-data3 = textscan(fileID, '%s'); 
-fclose(fileID);
-data3 = data3{1};
-
-huaweiHR_data = [];
-for i =1:length(data3)
-    temp = data3{i};
-    if strcmp(temp, 'Measurement:')
-        huaweiHR_data = [huaweiHR_data str2num(data3{i+1})];
-    end
-end
-
-%%
-
-Li = min(length(polarHR_data),length(z_ppg1));
-La = max(length(polarHR_data),length(z_ppg1));
-z_ppg1 = resample(z_ppg1, length(polarHR_data), length(z_ppg1));
-% huaweippg = resample(huaweiHR_data, length(z_polarHR_data), length(huaweiHR_data));
-
-figure;
-plot(polarHR_data);
-hold on 
-plot(z_ppg1);
-plot(huaweiHR_data);
-legend('polar HR','ppg HR', 'huawei HR');
-mean_dif = mean(abs(polarHR_data-z_ppg1));
-title(num2str(mean_dif));
-else
-Li = min(length(polarHR_data),length(z_ppg1));
-La = max(length(polarHR_data),length(z_ppg1));
 z_ppg2 = resample(z_ppg1, length(polarHR_data), length(z_ppg1));
 
 figure;
